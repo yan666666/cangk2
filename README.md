@@ -196,8 +196,8 @@ After arriving at the customer's location,the robot needs to adjust the posture 
             ctrl = catch_object()
             rospy.spin()
   The The second problem to be solved is the control of the arm.I wrote the code which includes the angle information of each joint of the arm to complete each specific position based on the example of arm_dance.py.It is the one that our teacher talked about in class. It is mainly divided into four postures. The first is the initial arm posture, to ensure that the work area is not obstructed. The second is the position of the arm when the robot arrives at the counter, which is already aimed at the object being grabbed. The third is the grasping posture, which requires lifting the object on the basis of the second posture and ensuring the integrity of the object. The fourth is the posture of placing objects, which should be placed at the height of the desktop and slowly released. In this way, as long as the corresponding position and posture instructions are issued according to the completion time of each task, the corresponding actions can be completed.Here is the code.  
+    
     #!/usr/bin/env python
-
     """
         arm.py - move robot arm according to predefined gestures
 
