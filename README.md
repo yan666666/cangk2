@@ -32,8 +32,8 @@ After arriving at the customer's location,the robot needs to adjust the posture 
 ### Ⅲ  Technical Route  
   The first problem to be solved is to minimize the grabbing error. There are two main ways to reduce the grabbing error. One is to use the base of the robot to optimize the navigation, so that the position of the robot parking is more accurate and it is convenient for the robot to grab the object directly. The second method is to minimize the error of the arm as much as possible and to use more precise components. Obviously, the second method is not feasible. Because the precision of the arm used in the experiment is very accurate,.But its grabbing range is small, so it is not easy to grasp things. So we choose the first method, using navigation to reduce errors.  
   Here is the code for tuning.The whole document is divided into four main parts. The first part is using Darknet_ros to identify specific objects, and using BoundingBox to frame the range of objects in the image. In the code, I write "bottle" to replace the object. The second part calculates the average distance between the point cloud and the camera by using the depth image information of Kinect and the topic name is "/camera/depth/image_raw". The third part is to use Twist to publish the angle control information to the robot by comparing the position of the identified object in the image with the middle of the screen. If the deviation is large, a larger angular velocity will be published. And if the deviation is small, a smaller angular velocity will be published. When the difference is within the tolerance range, the angle is considered to have been adjusted well. The fourth part compares the average depth of the object in the image with the robot. "Twist" is used to distribute linear speed control information to the robot. If the deviation is large, a larger linear velocity will be published, and if the deviation is small, a smaller linear velocity will be published. When the difference is within the tolerance range, the distance is considered to have been adjusted well.  
-    ```
-    #! /usr/bin/env python  
+
+    ```#! /usr/bin/env python  
     # -*- coding: utf-8 -*-  
     """  
         Date: 2019/06/06  
@@ -195,7 +195,7 @@ if __name__ == '__main__':
     rospy.init_node("catch_object", anonymous=True)
     ctrl = catch_object()
     rospy.spin()
-    ```
+```
   The The second problem to be solved is the control of the arm.I wrote the code which includes the angle information of each joint of the arm to complete each specific position based on the example of arm_dance.py.It is the one that our teacher talked about in class. It is mainly divided into four postures. The first is the initial arm posture, to ensure that the work area is not obstructed. The second is the position of the arm when the robot arrives at the counter, which is already aimed at the object being grabbed. The third is the grasping posture, which requires lifting the object on the basis of the second posture and ensuring the integrity of the object. The fourth is the posture of placing objects, which should be placed at the height of the desktop and slowly released. In this way, as long as the corresponding position and posture instructions are issued according to the completion time of each task, the corresponding actions can be completed.Here is the code.
 ```#!/usr/bin/env python
 
